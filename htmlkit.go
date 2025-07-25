@@ -2,8 +2,10 @@ package htmlkit
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"html"
+	"io"
 )
 
 type Element interface {
@@ -79,6 +81,27 @@ func (n *RawNode) Render() []byte {
 func Raw(s string) Element {
 	return &RawNode{
 		Content: s,
+	}
+}
+
+type ComponentNode struct {
+	component
+}
+
+type component interface {
+	Render(ctx context.Context, w io.Writer) error
+}
+
+func (n *ComponentNode) Render() []byte {
+	var b bytes.Buffer
+
+	n.component.Render(context.Background(), &b)
+	return b.Bytes()
+}
+
+func Component(c component) Element {
+	return &ComponentNode{
+		component: c,
 	}
 }
 
