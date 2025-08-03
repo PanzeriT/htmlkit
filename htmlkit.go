@@ -145,5 +145,8 @@ func tag(name string, allowedAttrs, allowedChildTags []string, args ...any) *Tag
 }
 
 func Table(args ...any) *Tag { return tag("table", []string{"class", "id"}, []string{"tr"}, args...) }
-func Tr(args ...any) *Tag    { return tag("tr", []string{"class", "id"}, []string{"td"}, args...) }
+func Tr(args ...any) *Tag    { return tag("tr", []string{"class", "id"}, []string{"td", "th"}, args...) }
 func Td(args ...any) *Tag    { return tag("td", []string{"class", "id"}, nil, args...) }
+func Th(args ...any) *Tag    { return tag("th", []string{"class", "id"}, nil, args...) }
+
+func Div(args ...any) *Tag { return tag("div", []string{"class", "id"}, nil, args...) }
